@@ -1,0 +1,400 @@
+<!doctype html>
+<html>
+<head>
+    <title>Onur Yazkili</title>
+</head>
+<body style="text-align: center;" bgcolor="grey">
+    <div>
+        <div>
+            <div>
+                <h1>Hamming Error-Correcting Code Simülatörü</h1>
+            </div>
+        </div>
+        <div>
+            <div>
+                <select id="selectDiv" onchange="numberOfBits(value)">
+                    <option>Kaç bit ?</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="16">16</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" id="dataDiv">
+            </div>
+
+            <div>
+                <button onclick="parityBits()">BAŞLAT</button></br></br>
+            </div>
+        </div>
+
+        <div>
+            <div id="parityDiv">
+
+            </div>
+        </div>
+
+        <div>
+            <div id="checkDiv">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        var data = document.getElementById('dataDiv');
+var select = document.getElementById('selectDiv');
+var parity = document.getElementById('parityDiv');
+var check = document.getElementById('checkDiv');
+
+var p = []
+var c;
+function numberOfBits(values) {
+    
+    data.value = '';
+    data.maxLength = values;
+    data.disabled = false;
+
+}
+
+function parityBits() {
+    check.innerHTML = '';
+    var par = data.value.split('');
+    for (var i = 0; i < par.length; i++) {
+        par[i] = parseInt(par[i]);
+    }
+    switch (select.value) {
+        
+
+        case '4':
+            var p1 = par[0] ^ par[1] ^ par[3];
+            var p2 = par[0] ^ par[2] ^ par[3];
+            var p4 = par[1] ^ par[2] ^ par[3];
+            p = [p1, p2, par[0], p4, par[1], par[2], par[3]];
+
+            parity.innerHTML = `
+            
+            <table align="center" border="1" cellpadding="15" cellspacing="15" bgcolor="black">
+                <tr>
+                    <td bgcolor="red">P1</td>
+                    <td bgcolor="red">P2</td>
+                    <td bgcolor="green">P3</td>
+                    <td bgcolor="red">P4</td>
+                    <td bgcolor="green">P5</td>
+                    <td bgcolor="green">P6</td>
+                    <td bgcolor="green">P7</td>
+                </tr>
+                <tr>
+                    <td bgcolor="red">${p1}</td>
+                    <td bgcolor="red">${p2}</td>
+                    <td bgcolor="green">${par[0]}</td>
+                    <td bgcolor="red">${p4}</td>
+                    <td bgcolor="green">${par[1]}</td>
+                    <td bgcolor=green">${par[2]}</td>
+                    <td bgcolor="green">${par[3]}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="blue"><button onclick='checkBits(4,0)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(4,1)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(4,2)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(4,3)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(4,4)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(4,5)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(4,6)'>HATA</button></td>
+                </tr>
+            </table>
+            </br>
+            <font size="5"> Parity bitleri </br> P1: ${p1} </br>  P2: ${p2} </br>  P4: ${p4}</font> </br>`
+            break;
+
+
+        case '8':
+            var p1 = par[0] ^ par[1] ^ par[3] ^ par[4] ^ par[6];
+            var p2 = par[0] ^ par[2] ^ par[3] ^ par[5] ^ par[6];
+            var p4 = par[1] ^ par[2] ^ par[3] ^ par[7];
+            var p8 = par[4] ^ par[5] ^ par[6] ^ par[7];
+            p = [p1, p2, par[0], p4, par[1], par[2], par[3], p8, par[4], par[5], par[6], par[7]];
+
+            parity.innerHTML = `
+            <table align="center" border="1" cellpadding="15" cellspacing="15" bgcolor="black">
+                <tr>
+                    <td bgcolor="red">P1</td>
+                    <td bgcolor="red">P2</td>
+                    <td bgcolor="green">P3</td>
+                    <td bgcolor="red">P4</td>
+                    <td bgcolor="green">P5</td>
+                    <td bgcolor="green">P6</td>
+                    <td bgcolor="green">P7</td>
+                    <td bgcolor="red">P8</td>
+                    <td bgcolor="green">P9</td>
+                    <td bgcolor="green">P10</td>
+                    <td bgcolor="green">P11</td>
+                    <td bgcolor="green">P12</td>
+                </tr>
+                <tr>
+                    <td bgcolor="red">${p1}</td>
+                    <td bgcolor="red">${p2}</td>
+                    <td bgcolor="green">${par[0]}</td>
+                    <td bgcolor="red">${p4}</td>
+                    <td bgcolor="green">${par[1]}</td>
+                    <td bgcolor="green">${par[2]}</td>
+                    <td bgcolor="green">${par[3]}</td>
+                    <td bgcolor="red">${p8}</td>
+                    <td bgcolor="green">${par[4]}</td>
+                    <td bgcolor="green">${par[5]}</td>
+                    <td bgcolor="green">${par[6]}</td>
+                    <td bgcolor="green">${par[7]}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="blue"><button onclick='checkBits(8,0)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,1)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,2)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,3)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,4)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,5)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,6)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,7)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,8)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,9)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,10)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(8,11)'>HATA</button></td>
+                </tr>
+            </table>
+            </br>
+            <font size="5"> Parity bitleri </br> P1: ${p1} </br>  P2: ${p2} </br>  P4: ${p4} </br>  P8: ${p8}</font> </br>`
+            break;
+
+        case '16':
+
+            var p1 = par[0] ^ par[1] ^ par[3] ^ par[4] ^ par[6] ^ par[8] ^ par[10] ^ par[11] ^ par[13] ^ par[15];
+            var p2 = par[0] ^ par[2] ^ par[3] ^ par[5] ^ par[6] ^ par[9] ^ par[10] ^ par[12] ^ par[13];
+            var p4 = par[1] ^ par[2] ^ par[3] ^ par[7] ^ par[8] ^ par[9] ^ par[10] ^ par[14] ^ par[15];
+            var p8 = par[4] ^ par[5] ^ par[6] ^ par[7] ^ par[8] ^ par[9] ^ par[10];
+            var p16 = par[11] ^ par[12] ^ par[13] ^ par[14] ^ par[15];
+            p = [p1, p2, par[0], p4, par[1], par[2], par[3], p8, par[4], par[5], par[6], par[7], par[8], par[9], par[10], p16, par[11], par[12], par[13], par[14], par[15]];
+
+            parity.innerHTML = `
+            <table align="center" border="1" cellpadding="11" cellspacing="14" bgcolor="black">
+                <tr>
+                    <td bgcolor="red">P1</td>
+                    <td bgcolor="red">P2</td>
+                    <td bgcolor="green">P3</td>
+                    <td bgcolor="red">P4</td>
+                    <td bgcolor="green">P5</td>
+                    <td bgcolor="green">P6</td>
+                    <td bgcolor="green">P7</td>
+                    <td bgcolor="red">P8</td>
+                    <td bgcolor="green">P9</td>
+                    <td bgcolor="green">P10</td>
+                    <td bgcolor="green">P11</td>
+                    <td bgcolor="green">P12</td>
+                    <td bgcolor="green">P13</td>
+                    <td bgcolor="green">P14</td>
+                    <td bgcolor="green">P15</td>
+                    <td bgcolor="red">P16</td>
+                    <td bgcolor="green">P17</td>
+                    <td bgcolor="green">P18</td>
+                    <td bgcolor="green">P19</td>
+                    <td bgcolor="green">P20</td>
+                    <td bgcolor="green">P21</td>
+                </tr>
+                <tr>
+                    <td bgcolor="red">${p1}</td>
+                    <td bgcolor="red">${p2}</td>
+                    <td bgcolor="green">${par[0]}</td>
+                    <td bgcolor="red">${p4}</td>
+                    <td bgcolor="green">${par[1]}</td>
+                    <td bgcolor="green">${par[2]}</td>
+                    <td bgcolor="green">${par[3]}</td>
+                    <td bgcolor="red">${p8}</td>
+                    <td bgcolor="green">${par[4]}</td>
+                    <td bgcolor="green">${par[5]}</td>
+                    <td bgcolor="green">${par[6]}</td>
+                    <td bgcolor="green">${par[7]}</td>
+                    <td bgcolor="green">${par[8]}</td>
+                    <td bgcolor="green">${par[9]}</td>
+                    <td bgcolor="green">${par[10]}</td>
+                    <td bgcolor="red">${p16}</td>
+                    <td bgcolor="green">${par[11]}</td>
+                    <td bgcolor="green">${par[12]}</td>
+                    <td bgcolor="green">${par[13]}</td>
+                    <td bgcolor="green">${par[14]}</td>
+                    <td bgcolor="green">${par[15]}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="blue"><button onclick='checkBits(16,0)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,1)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,2)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,3)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,4)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,5)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,6)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,7)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,8)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,9)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,10)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,11)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,12)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,13)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,14)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,15)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,16)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,17)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,18)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,19)'>HATA</button></td>
+                    <td bgcolor="blue"><button onclick='checkBits(16,20)'>HATA</button></td>
+                </tr>
+            </table>
+            </br>
+            <font size="5"> Parity bitleri </br> P1: ${p1} </br>  P2: ${p2} </br>  P4: ${p4} </br>  P8: ${p8} </br> P16: ${p16}</font> </br>`
+            break;
+    }
+
+}
+
+function checkBits(bit, fail) {
+    var bitCheck = [...p];
+    bitCheck[fail] = 1 - p[fail];
+    switch (bit) 
+    {
+        case 4:
+
+            var c1 = bitCheck[0] ^ bitCheck[2] ^ bitCheck[4] ^ bitCheck[6];
+            var c2 = bitCheck[1] ^ bitCheck[2] ^ bitCheck[5] ^ bitCheck[6];
+            var c4 = bitCheck[3] ^ bitCheck[4] ^ bitCheck[5] ^ bitCheck[6];
+            
+                check.innerHTML = `
+                </br>
+                <table align="center" border="1" cellpadding="15" cellspacing="15" bgcolor="black">
+                    <tr>
+                        <td bgcolor="green">P1</td>
+                        <td bgcolor="green">P2</td>
+                        <td bgcolor="green">P3</td>
+                        <td bgcolor="green">P4</td>
+                        <td bgcolor="green">P5</td>
+                        <td bgcolor="green">P6</td>
+                        <td bgcolor="green">P7</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="green">${bitCheck[0]}</td>
+                        <td bgcolor="green">${bitCheck[1]}</td>
+                        <td bgcolor="green">${bitCheck[2]}</td>
+                        <td bgcolor="green">${bitCheck[3]}</td>
+                        <td bgcolor="green">${bitCheck[4]}</td>
+                        <td bgcolor="green">${bitCheck[5]}</td>
+                        <td bgcolor="green">${bitCheck[6]}</td>
+                    </tr>
+                </table>
+                </br>
+                <font size="5">Check bitleri </br> C1= ${c1} </br>  C2= ${c2} </br>  C4= ${c4} </br> Hata '${c4}${c2}${c1}' . Sıradaki bitdedir</font>`
+            
+            break;
+
+        case 8:
+            var c1 = bitCheck[0] ^ bitCheck[2] ^ bitCheck[4] ^ bitCheck[6] ^ bitCheck[8] ^ bitCheck[10];
+            var c2 = bitCheck[1] ^ bitCheck[2] ^ bitCheck[5] ^ bitCheck[6] ^ bitCheck[9] ^ bitCheck[10];
+            var c4 = bitCheck[3] ^ bitCheck[4] ^ bitCheck[5] ^ bitCheck[6] ^ bitCheck[11];
+            var c8 = bitCheck[7] ^ bitCheck[8] ^ bitCheck[9] ^ bitCheck[10] ^ bitCheck[11];
+
+                check.innerHTML = `
+                </br>
+                <table align="center" border="1" cellpadding="15" cellspacing="15" bgcolor="black">
+                    <tr>
+                        <td bgcolor="green">P1</td>
+                        <td bgcolor="green">P2</td>
+                        <td bgcolor="green">P3</td>
+                        <td bgcolor="green">P4</td>
+                        <td bgcolor="green">P5</td>
+                        <td bgcolor="green">P6</td>
+                        <td bgcolor="green">P7</td>
+                        <td bgcolor="green">P8</td>
+                        <td bgcolor="green">P9</td>
+                        <td bgcolor="green">P10</td>
+                        <td bgcolor="green">P11</td>
+                        <td bgcolor="green">P12</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="green">${bitCheck[0]}</td>
+                        <td bgcolor="green">${bitCheck[1]}</td>
+                        <td bgcolor="green">${bitCheck[2]}</td>
+                        <td bgcolor="green">${bitCheck[3]}</td>
+                        <td bgcolor="green">${bitCheck[4]}</td>
+                        <td bgcolor="green">${bitCheck[5]}</td>
+                        <td bgcolor="green">${bitCheck[6]}</td>
+                        <td bgcolor="green">${bitCheck[7]}</td>
+                        <td bgcolor="green">${bitCheck[8]}</td>
+                        <td bgcolor="green">${bitCheck[9]}</td>
+                        <td bgcolor="green">${bitCheck[10]}</td>
+                        <td bgcolor="green">${bitCheck[11]}</td>
+                    </tr>
+                </table>
+                </br>
+                <font size="5">Check bitleri </br> C1= ${c1} </br> C2= ${c2} </br> C4= ${c4} </br> C8= ${c8} </br> Hata '${c8}${c4}${c2}${c1}' . Sıradaki bitdedir</font>`
+            break;
+
+        case 16:
+            var c1 = bitCheck[0] ^ bitCheck[2] ^ bitCheck[4] ^ bitCheck[6] ^ bitCheck[8] ^ bitCheck[10] ^ bitCheck[12] ^ bitCheck[14] ^ bitCheck[16] ^ bitCheck[18] ^ bitCheck[20];
+            var c2 = bitCheck[1] ^ bitCheck[2] ^ bitCheck[5] ^ bitCheck[6] ^ bitCheck[9] ^ bitCheck[10] ^ bitCheck[13] ^ bitCheck[14] ^ bitCheck[17] ^ bitCheck[18];
+            var c4 = bitCheck[3] ^ bitCheck[4] ^ bitCheck[5] ^ bitCheck[6] ^ bitCheck[11] ^ bitCheck[12] ^ bitCheck[13] ^ bitCheck[14] ^ bitCheck[19] ^ bitCheck[20];
+            var c8 = bitCheck[7] ^ bitCheck[8] ^ bitCheck[9] ^ bitCheck[10] ^ bitCheck[11] ^ bitCheck[12] ^ bitCheck[13] ^ bitCheck[14];
+            var c16 = bitCheck[15] ^ bitCheck[16] ^ bitCheck[17] ^ bitCheck[18] ^ bitCheck[19] ^ bitCheck[20];
+        
+                check.innerHTML = `
+                </br>
+                <table align="center" border="1" cellpadding="11" cellspacing="14" bgcolor="black">
+                    <tr>
+                        <td bgcolor="green">P1</td>
+                        <td bgcolor="green">P2</td>
+                        <td bgcolor="green">P3</td>
+                        <td bgcolor="green">P4</td>
+                        <td bgcolor="green">P5</td>
+                        <td bgcolor="green">P6</td>
+                        <td bgcolor="green">P7</td>
+                        <td bgcolor="green">P8</td>
+                        <td bgcolor="green">P9</td>
+                        <td bgcolor="green">P10</td>
+                        <td bgcolor="green">P11</td>
+                        <td bgcolor="green">P12</td>
+                        <td bgcolor="green">P13</td>
+                        <td bgcolor="green">P14</td>
+                        <td bgcolor="green">P15</td>
+                        <td bgcolor="green">P16</td>
+                        <td bgcolor="green">P17</td>
+                        <td bgcolor="green">P18</td>
+                        <td bgcolor="green">P19</td>
+                        <td bgcolor="green">P20</td>
+                        <td bgcolor="green">P21</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="green">${bitCheck[0]}</td>
+                        <td bgcolor="green">${bitCheck[1]}</td>
+                        <td bgcolor="green">${bitCheck[2]}</td>
+                        <td bgcolor="green">${bitCheck[3]}</td>
+                        <td bgcolor="green">${bitCheck[4]}</td>
+                        <td bgcolor="green">${bitCheck[5]}</td>
+                        <td bgcolor="green">${bitCheck[6]}</td>
+                        <td bgcolor="green">${bitCheck[7]}</td>
+                        <td bgcolor="green">${bitCheck[8]}</td>
+                        <td bgcolor="green">${bitCheck[9]}</td>
+                        <td bgcolor="green">${bitCheck[10]}</td>
+                        <td bgcolor="green">${bitCheck[11]}</td>
+                        <td bgcolor="green">${bitCheck[12]}</td>
+                        <td bgcolor="green">${bitCheck[13]}</td>
+                        <td bgcolor="green">${bitCheck[14]}</td>
+                        <td bgcolor="green">${bitCheck[15]}</td>
+                        <td bgcolor="green">${bitCheck[16]}</td>
+                        <td bgcolor="green">${bitCheck[17]}</td>
+                        <td bgcolor="green">${bitCheck[18]}</td>
+                        <td bgcolor="green">${bitCheck[19]}</td>
+                        <td bgcolor="green">${bitCheck[20]}</td>
+                    </tr>
+                </table>
+                </br>
+                <font size="5">Check bitleri </br> C1: ${c1} </br> C2: ${c2} </br> C4: ${c4} </br> C8: ${c8} </br> C16: ${c16} </br> Hata '${c16}${c8}${c4}${c2}${c1}'. Sıradaki bitdedir</font>`
+            
+            break;
+    }
+
+}
+    </script>
+</body>
+</html>
